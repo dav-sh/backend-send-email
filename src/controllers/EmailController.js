@@ -2,16 +2,16 @@ const transporter = require("../config/smtp");
 const emailSchema = require("../schemas/emailSchema");
 
 const sendEmail = async (req, res) => {
-  const { email, subject, text, name } = req.body;
+  const { email, subject, message, name } = req.body;
 
   try {
-    emailSchema.parse({ email, subject, text, name });
-    let content = `${text} By: ${name}  Email: ${email}`;
+    emailSchema.parse({ email, subject, message, name });
+    let content = `${message} By: ${name}  Email: ${email}`;
     const mailOptions = {
       from: process.env.SMTP_FROM,
       to: process.env.SMTP_TO,
       subject,
-      text: content,
+      message: content,
     };
 
     await transporter.sendMail(mailOptions);
